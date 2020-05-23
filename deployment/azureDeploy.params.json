@@ -6,10 +6,10 @@
             "value": "AzUrlShortTools"
         },
         "OwnerName": {
-            "value": "Frank"
+            "value": "Unspecified"
         },
         "GitHubBranch": {
-            "value": "feature/deploy-it-all"
+            "value": "master"
         },
         "defaultRedirectUrl": {
             "value": "https://azure.com"
