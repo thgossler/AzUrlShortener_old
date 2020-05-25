@@ -1,4 +1,5 @@
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -105,6 +106,28 @@ namespace adminBlazorWebsite.Data
 
                     var resultList = response.Content.ReadAsStringAsync().Result;
                     return JsonConvert.DeserializeObject<ShortUrlEntity>(resultList);
+                }
+            }
+        }
+
+
+        public async Task<HttpStatusCode> DeleteShortUrl(ShortUrlEntity deletedUrl)
+        {
+            var url = GetFunctionUrl("UrlDelete");
+
+            CancellationToken cancellationToken;
+
+            using (var client = new HttpClient())
+            using (var request = new HttpRequestMessage(HttpMethod.Post, url))
+            using (var httpContent = CreateHttpContent(deletedUrl))
+            {
+                request.Content = httpContent;
+
+                using (var response = await client
+                    .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                    .ConfigureAwait(false))
+                {
+                    return response.StatusCode;
                 }
             }
         }

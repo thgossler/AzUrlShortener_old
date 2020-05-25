@@ -40,6 +40,7 @@ else
                     </td>
                     <td>@url.Clicks</td>
                     <td><button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => EditShortUrl(url))">Edit</button></td>
+                    <td><button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => DeleteShortUrl(url))">Delete</button></td>
                 </tr>
             }
         </tbody>
@@ -128,13 +129,52 @@ else
 }
 
 
+@if(ShowDeletePopup)
+{
+    <div class="modal" tabindex="-1" style="display:block" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Delete Url?</h3>
+                    <!-- Button to close the popup -->
+                    <button type="button" class="close"
+                            @onclick="ClosePopup">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>Title</label>
+                    <label>The Vanity</label>
+                    <input class="form-control" type="text"
+                                       @bind="editedUrl.RowKey" />
+                    <br />
+                    <input class="form-control" type="text"
+                                       @bind="editedUrl.Title" />
+                    <br />
+                    <label>The Url to redirect</label>
+                    <input class="form-control" type="text"
+                                       @bind="editedUrl.Url" />
+                    <br />
+                    <button class="btn btn-primary"
+                            @onclick="ApplyDeleteShortUrl">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
 
 @code
 {
     bool ShowCreatePopup = false;
     bool ShowEditPopup = false;
+    bool ShowDeletePopup = false;
     ShortUrlRequest shortUrlRequest = new ShortUrlRequest();
     ShortUrlEntity editedUrl;
+    ShortUrlEntity deletedUrl;
     ShortUrlList UrlList;
 
     void ClosePopup()
@@ -155,6 +195,14 @@ else
         await UrlService.UpdateShortUrl(editedUrl);
         UrlList = await UrlService.GetUrlList();
     }
+
+    private async Task ApplyDeleteShortUrl()
+    {
+        ShowDeletePopup = false;
+        await UrlService.DeleteShortUrl(deletedUrl);
+        UrlList = await UrlService.GetUrlList();
+    }
+
     protected override async Task OnParametersSetAsync()
     {
         UrlList = await UrlService.GetUrlList();
@@ -173,6 +221,14 @@ else
     {
         editedUrl = urlEntity;
         ShowEditPopup = true;
+    }
+
+
+    [Authorize(Roles = "admin")]
+    void DeleteShortUrl(ShortUrlEntity urlEntity)
+    {
+        deletedUrl = urlEntity;
+        ShowDeletePopup = true;
     }
 
 

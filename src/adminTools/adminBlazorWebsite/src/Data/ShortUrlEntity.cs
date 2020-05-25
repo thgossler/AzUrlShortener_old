@@ -5,6 +5,7 @@ namespace  adminBlazorWebsite.Data
     public class ShortUrlEntity
     {
         public string PartitionKey { get; set; }
+        
         public string RowKey { get; set; }
 
         public string Title { get; set; }
@@ -12,6 +13,9 @@ namespace  adminBlazorWebsite.Data
         public string Url { get; set; }
 
         public string ShortUrl { get; set; }
+
+        public string OwnerUpn { get; set; }
+        
         public int Clicks { get; set; }
 
         public ShortUrlEntity(){}
