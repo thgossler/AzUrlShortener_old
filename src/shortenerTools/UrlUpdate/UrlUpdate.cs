@@ -29,14 +29,15 @@ Output:
 */
 
 using System;
-using System.Threading.Tasks;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Cloud5mins.domain;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Cloud5mins.Function
 {
@@ -45,8 +46,9 @@ namespace Cloud5mins.Function
         [FunctionName("UrlUpdate")]
         public static async Task<HttpResponseMessage> Run(
         [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)]HttpRequestMessage req, 
-        ILogger log, 
-        ExecutionContext context)
+        ExecutionContext context,
+        ClaimsPrincipal claimsPrincipal,
+        ILogger log)
         {
             log.LogInformation($"C# HTTP trigger function processed this request: {req}");
 
@@ -62,6 +64,10 @@ namespace Cloud5mins.Function
                 return req.CreateResponse(HttpStatusCode.NotFound);
             }
 
+            // Update entity with current user information
+            string owner = claimsPrincipal?.Identity?.Name ?? "Admin";
+            input.OwnerUpn = owner;
+
             ShortUrlEntity result;
             var config = new ConfigurationBuilder()
                 .SetBasePath(context.FunctionAppDirectory)
@@ -76,7 +82,6 @@ namespace Cloud5mins.Function
                 result = await stgHelper.UpdateShortUrlEntity(input);
                 var host = req.RequestUri.GetLeftPart(UriPartial.Authority); 
                 result.ShortUrl = Utility.GetShortUrl(host, result.RowKey);
-
             }
             catch (Exception ex)
             {

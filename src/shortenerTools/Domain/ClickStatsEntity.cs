@@ -6,7 +6,6 @@ namespace Cloud5mins.domain
 {
     public class ClickStatsEntity : TableEntity
     {
-        //public string Id { get; set; }
         public string Datetime { get; set; }
 
         public ClickStatsEntity(){}

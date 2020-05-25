@@ -1,12 +1,12 @@
 using System;
-using System.Threading.Tasks;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Cloud5mins.domain;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Cloud5mins.Function
 {
@@ -14,9 +14,9 @@ namespace Cloud5mins.Function
     {
         [FunctionName("UrlClickStats")]
         public static async Task<HttpResponseMessage> Run(
-        [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)]HttpRequestMessage req, 
-        ILogger log, 
-        ExecutionContext context)
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)]HttpRequestMessage req,  
+            ExecutionContext context,
+            ILogger log)
         {
             log.LogInformation($"C# HTTP trigger function processed this request: {req}");
 

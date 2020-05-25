@@ -1,12 +1,12 @@
 using System;
-using System.Threading.Tasks;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Cloud5mins.domain;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Cloud5mins.Function
 {
@@ -35,7 +35,7 @@ namespace Cloud5mins.Function
 
                 StorageTableHelper stgHelper = new StorageTableHelper(config["UlsDataStorage"]); 
 
-                var tempUrl = new ShortUrlEntity(string.Empty, shortUrl);
+                var tempUrl = new ShortUrlEntity(string.Empty, string.Empty, shortUrl);
                 
                 var newUrl = await stgHelper.GetShortUrlEntity(tempUrl);
 
