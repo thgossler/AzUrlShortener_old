@@ -20,11 +20,25 @@ namespace Cloud5mins.Function
             log.LogInformation($"C# HTTP trigger function processed a request. {code}");
 
             string rootPath = context.FunctionAppDirectory;
-            var content = await File.ReadAllTextAsync(rootPath + @".well-known\acme-challenge\" + code);
 
-            var resp = new HttpResponseMessage(HttpStatusCode.OK);
-            resp.Content = new StringContent(content, System.Text.Encoding.UTF8, "text/plain");
-            return resp;
+            string content = string.Empty;
+            string acmeChallengeFile = rootPath + "/.well-known/acme-challenge/" + code;
+            log.LogInformation($"ACME challenge file name: {acmeChallengeFile}");
+
+            try
+            {
+                content = await File.ReadAllTextAsync(acmeChallengeFile);
+            }
+            catch (System.Exception ex)
+            {
+                var errorResponse = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                errorResponse.Content = new StringContent("ACME challenge file could not be read", System.Text.Encoding.UTF8, "text/plain");
+                return errorResponse;
+            }
+
+            var successResponse = new HttpResponseMessage(HttpStatusCode.OK);
+            successResponse.Content = new StringContent(content, System.Text.Encoding.UTF8, "text/plain");
+            return successResponse;
         }
     }
 }
