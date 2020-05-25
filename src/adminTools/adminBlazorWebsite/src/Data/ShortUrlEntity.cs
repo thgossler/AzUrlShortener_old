@@ -31,9 +31,9 @@ namespace  adminBlazorWebsite.Data
 
         public string GetDisplayableUrl(){
 
-            var lenght = Url.ToString().Length;
-            if (lenght >= 50){
-                return Url.Substring(1,50);
+            var length = Url.ToString().Length;
+            if (length >= 64){
+                return Url.Substring(0, 63) + "...";
             }
             return Url;
         }
