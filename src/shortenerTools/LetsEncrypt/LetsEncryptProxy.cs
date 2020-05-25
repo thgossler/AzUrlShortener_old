@@ -31,8 +31,10 @@ namespace Cloud5mins.Function
             }
             catch (System.Exception ex)
             {
-                var errorResponse = new HttpResponseMessage(HttpStatusCode.InternalServerError);
-                errorResponse.Content = new StringContent("ACME challenge file could not be read", System.Text.Encoding.UTF8, "text/plain");
+                var errorMessage = "ACME challenge file could not be read";
+                log.LogError(ex, errorMessage);
+                var errorResponse = new HttpResponseMessage(HttpStatusCode.NotFound);
+                errorResponse.Content = new StringContent(errorMessage, System.Text.Encoding.UTF8, "text/plain");
                 return errorResponse;
             }
 
