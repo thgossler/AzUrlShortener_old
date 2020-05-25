@@ -143,21 +143,21 @@ else
                     </button>
                 </div>
                 <div class="modal-body">
-                    <label>Title</label>
                     <label>The Vanity</label>
                     <input class="form-control" type="text"
-                                       @bind="editedUrl.RowKey" />
+                                       @bind="deletedUrl.RowKey" />
                     <br />
+                    <label>Title</label>
                     <input class="form-control" type="text"
-                                       @bind="editedUrl.Title" />
+                                       @bind="deletedUrl.Title" />
                     <br />
                     <label>The Url to redirect</label>
                     <input class="form-control" type="text"
-                                       @bind="editedUrl.Url" />
+                                       @bind="deletedUrl.Url" />
                     <br />
                     <button class="btn btn-primary"
                             @onclick="ApplyDeleteShortUrl">
-                        Save
+                        Delete
                     </button>
                 </div>
             </div>
@@ -181,6 +181,7 @@ else
     {
         ShowCreatePopup = false;
         ShowEditPopup = false;
+        ShowDeletePopup = false;
     }
     private async Task SaveShortUrl()
     {
