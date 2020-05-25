@@ -7,6 +7,12 @@
       },
       "backendUri": "http://localhost/api/UrlRedirect/{shortUrl}"
     },
+    "LetsEncryptProxy": {
+      "matchCondition": {
+        "route": "/.well-known/acme-challenge/{code}"
+      },
+      "backendUri": "http://localhost/api/LetsEncrypt/{code}"
+    },
     "Root": {
       "matchCondition": {
         "route": "/"

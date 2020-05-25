@@ -14,7 +14,7 @@ namespace Cloud5mins.Function
     {
         [FunctionName("UrlRedirect")]
         public static async Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "UrlRedirect/{shortUrl:regex(^[^.].*)}")] HttpRequestMessage req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "UrlRedirect/{shortUrl}")] HttpRequestMessage req,
             string shortUrl, 
             ExecutionContext context,
             ILogger log)
