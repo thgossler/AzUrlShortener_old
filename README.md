@@ -33,9 +33,7 @@ You deployed the Azure Url Shortener and it's now running in your Azure Subscrip
 
 Navigate to the Azure portal (azure.portal.com) and select the Azure Function instance, for this project.
 
-From the left panel, click on the **Deployment Center** (1), then the **Sync** button(2). This will start a synchronization between GitHub and the App Service (aka Azure Function) local Git. 
-
-![Steps to update the Azure Function doing a Git Sync][AzFunctionGitSync]
+From the left panel, click on the **Deployment Center**, then the **Sync** button. This will start a synchronization between GitHub and the App Service (aka Azure Function) local Git. 
 
 IF you are using the Admin Blazor Website, repeat the same operation but selecting the App Service with the name starting by "adm".
 
