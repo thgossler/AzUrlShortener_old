@@ -11,10 +11,14 @@
 }
 else
 {
-    <button class="btn btn-primary"
-            @onclick="CreateShortUrl">
-        Add New Url
-    </button>
+    <p>
+        <!-- Add a new ShortUrl -->
+        <button class="btn btn-primary"
+                @onclick="CreateShortUrl">
+            Add New Url
+        </button>
+    </p>
+
     <table class="table">
         <thead>
             <tr>
@@ -46,13 +50,14 @@ else
             }
         </tbody>
     </table>
+
     <p>
-    <!-- Add a new ShortUrl -->
-    <button class="btn btn-primary"
-            @onclick="CreateShortUrl">
-        Add New Url
-    </button>
-</p>
+        <!-- Add a new ShortUrl -->
+        <button class="btn btn-primary"
+                @onclick="CreateShortUrl">
+            Add New Url
+        </button>
+    </p>
 }
 
 @if(ShowCreatePopup)
@@ -190,7 +195,7 @@ else
         await UrlService.CreateShortUrl(shortUrlRequest);
         UrlList = await UrlService.GetUrlList();
     }
-    
+
     private async Task SaveUpdatedShortUrl()
     {
         ShowEditPopup = false;
