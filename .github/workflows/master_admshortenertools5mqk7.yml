@@ -52,4 +52,4 @@ jobs:
         app-name: 'admshortenertools5mqk7'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_0c3a1fc8898f4f82aacfd9273f794fe8 }}
-        package: ${{ env.DOTNET_ROOT }}/myApp
+        package: .
