@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  PATH_TO_PROJECT: './src/adminTools/adminBlazorWebsite/src' # set this to the path to your web app project, defaults to the repository root
+  PATH_TO_PROJECT: 'src/adminTools/adminBlazorWebsite/src' # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '3.1.413'  # set this to the dotnet version to use
   
 jobs:
@@ -32,16 +32,16 @@ jobs:
 
     - name: Build with dotnet
       run: |
-        pushd '${{ env.PATH_TO_PROJECT }}'
+        pushd './${{ env.PATH_TO_PROJECT }}'
         dotnet build --configuration Release
         popd
 
     - name: dotnet publish
       run: |
-        pushd '${{ env.PATH_TO_PROJECT }}'
+        pushd './${{ env.PATH_TO_PROJECT }}'
         dotnet publish -c Release -o '${{ env.DOTNET_ROOT }}/myApp'
-        Compress-Archive -Path ./* -DestinationPath '${{ env.DOTNET_ROOT }}/myApp.zip'
         popd
+        Compress-Archive -Path '${{ env.DOTNET_ROOT }}/myApp/*' -DestinationPath './myApp.zip'
 
     - name: Deploy to Azure Web App
       id: deploy-to-webapp
@@ -50,4 +50,4 @@ jobs:
         app-name: 'admshortenertools5mqk7'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_0c3a1fc8898f4f82aacfd9273f794fe8 }}
-        package: '${{ env.DOTNET_ROOT }}/myApp.zip'
+        package: ./myApp.zip
