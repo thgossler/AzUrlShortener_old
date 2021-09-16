@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_PACKAGE_PATH: 'src/adminTools/adminBlazorWebsite/src' # set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_PACKAGE_PATH: './src/adminTools/adminBlazorWebsite/src' # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '3.1.413'  # set this to the dotnet version to use
   
 jobs:
@@ -32,13 +32,13 @@ jobs:
 
     - name: Build with dotnet
       run: |
-        pushd './${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        pushd '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
         dotnet build --configuration Release
         popd
 
     - name: dotnet publish
       run: |
-        pushd './${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        pushd '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
         dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myApp'
         popd
         Compress-Archive -Path '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myApp/*' -DestinationPath '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myApp.zip' -Force -Verbose
