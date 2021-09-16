@@ -39,9 +39,9 @@ jobs:
     - name: dotnet publish
       run: |
         pushd '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
-        dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myApp'
+        dotnet publish -c Release -o myApp
+        Compress-Archive -Path myApp/* -DestinationPath '${{ env.DOTNET_ROOT }}/myApp.zip' -Force -Verbose
         popd
-        Compress-Archive -Path '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myApp/*' -DestinationPath '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myApp.zip' -Force -Verbose
 
     - name: Deploy to Azure Web App
       id: deploy-to-webapp
@@ -50,4 +50,4 @@ jobs:
         app-name: 'admshortenertools5mqk7'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_0c3a1fc8898f4f82aacfd9273f794fe8 }}
-        package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myApp.zip'
+        package: '${{ env.DOTNET_ROOT }}/myApp.zip'
