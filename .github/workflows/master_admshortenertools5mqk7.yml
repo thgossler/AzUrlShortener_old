@@ -30,9 +30,6 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
         include-prerelease: true
 
-    - name: Change to project folder
-      run: pushd '${{ env.PATH_TO_PROJECT }}'
-
     - name: Build with dotnet
       run: |
         pushd '${{ env.PATH_TO_PROJECT }}'
@@ -52,4 +49,4 @@ jobs:
         app-name: 'admshortenertools5mqk7'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_0c3a1fc8898f4f82aacfd9273f794fe8 }}
-        package: .
+        package: ${{ env.DOTNET_ROOT }}/myApp
