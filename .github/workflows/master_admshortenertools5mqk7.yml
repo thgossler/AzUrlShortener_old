@@ -9,6 +9,10 @@ on:
       - master
   workflow_dispatch:
 
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src\adminTools\adminBlazorWebsite\src' # set this to the path to your web app project, defaults to the repository root
+  DOTNET_VERSION: '3.1.19'  # set this to the dotnet version to use
+  
 jobs:
   build:
     runs-on: windows-latest
@@ -19,14 +23,20 @@ jobs:
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1.301'
+        dotnet-version: ${{ env.DOTNET_VERSION }}
         include-prerelease: true
 
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: |
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        dotnet build --configuration Release
+        popd
 
     - name: dotnet publish
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      run: |
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        popd
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
