@@ -34,10 +34,16 @@ jobs:
       run: pushd '${{ env.PATH_TO_PROJECT }}'
 
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: |
+        pushd '${{ env.PATH_TO_PROJECT }}'
+        dotnet build --configuration Release
+        popd
 
     - name: dotnet publish
-      run: dotnet publish -c Release
+      run: |
+        pushd '${{ env.PATH_TO_PROJECT }}'
+        dotnet publish -c Release -o '${{ env.DOTNET_ROOT }}/myApp'
+        popd
 
     - name: Deploy to Azure Web App
       id: deploy-to-webapp
@@ -46,3 +52,4 @@ jobs:
         app-name: 'admshortenertools5mqk7'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_0c3a1fc8898f4f82aacfd9273f794fe8 }}
+        package: ${{ env.DOTNET_ROOT }}/myApp
