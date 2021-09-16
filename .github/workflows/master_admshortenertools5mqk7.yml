@@ -40,7 +40,7 @@ jobs:
       run: |
         pushd '${{ env.PATH_TO_PROJECT }}'
         dotnet publish -c Release -o '${{ env.DOTNET_ROOT }}/myApp'
-        zip -r '${{ env.DOTNET_ROOT }}/myApp.zip' '${{ env.DOTNET_ROOT }}/myApp/'
+        tar -cvzf '${{ env.DOTNET_ROOT }}/myApp.zip' *
         popd
 
     - name: Deploy to Azure Web App
