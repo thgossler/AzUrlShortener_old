@@ -10,12 +10,16 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_PACKAGE_PATH: './src/adminTools/adminBlazorWebsite/src' # set this to the path to your web app project, defaults to the repository root
+  PATH_TO_PROJECT: './src/adminTools/adminBlazorWebsite/src' # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '3.1.413'  # set this to the dotnet version to use
   
 jobs:
-  build:
+  build-and-deploy:
     runs-on: windows-latest
+
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
     - uses: actions/checkout@v2
@@ -26,36 +30,14 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
         include-prerelease: true
 
+    - name: Change to project folder
+      run: pushd '${{ env.PATH_TO_PROJECT }}'
+
     - name: Build with dotnet
-      run: |
-        pushd '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
-        dotnet build --configuration Release
-        popd
+      run: dotnet build --configuration Release
 
     - name: dotnet publish
-      run: |
-        pushd '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
-        dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-        popd
-
-    - name: Upload artifact for deployment job
-      uses: actions/upload-artifact@v2
-      with:
-        name: .net-app
-        path: ${{env.DOTNET_ROOT}}/myapp
-
-  deploy:
-    runs-on: windows-latest
-    needs: build
-    environment:
-      name: 'production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
-    steps:
-    - name: Download artifact from build job
-      uses: actions/download-artifact@v2
-      with:
-        name: .net-app
+      run: dotnet publish -c Release
 
     - name: Deploy to Azure Web App
       id: deploy-to-webapp
@@ -64,7 +46,3 @@ jobs:
         app-name: 'admshortenertools5mqk7'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_0c3a1fc8898f4f82aacfd9273f794fe8 }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-
-    - run: |
-        dir /s 'C:\Users\runneradmin\AppData\Local\Microsoft\dotnet\myapp\'
