@@ -50,7 +50,10 @@ jobs:
     environment:
       name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+
+    env:
+      AZURE_WEBAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+
     steps:
     - name: Download artifact from build job
       uses: actions/download-artifact@v2
@@ -64,4 +67,4 @@ jobs:
         app-name: 'admshortenertools5mqk7'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_0c3a1fc8898f4f82aacfd9273f794fe8 }}
-        package: .
+        package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
