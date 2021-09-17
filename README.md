@@ -11,6 +11,7 @@ The original implementation can be found [here](https://github.com/FBoucher/AzUr
 Changes:
 - Support for securing a custom domain with "Azure Let's Encrypt" (routing)
 - Azure Function and button in Admin UI to delete URLs
+- Case-insensitive vanity look-up
 
 
 ## How To Deploy
