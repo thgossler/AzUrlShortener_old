@@ -75,13 +75,13 @@ namespace Cloud5mins.Function
                 .AddEnvironmentVariables()
                 .Build();
 
-            StorageTableHelper stgHelper = new StorageTableHelper(config["UlsDataStorage"]); 
+            StorageTableHelper stgHelper = new StorageTableHelper(config["UrlDataStorage"]); 
 
             try
             {
                 result = await stgHelper.UpdateShortUrlEntity(input);
                 var host = req.RequestUri.GetLeftPart(UriPartial.Authority); 
-                result.ShortUrl = Utility.GetShortUrl(host, result.RowKey);
+                result.ShortUrl = Utility.GetShortUrl(host, result.Vanity);
             }
             catch (Exception ex)
             {

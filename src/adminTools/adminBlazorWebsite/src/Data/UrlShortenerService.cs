@@ -55,7 +55,7 @@ namespace adminBlazorWebsite.Data
                     .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
                     .ConfigureAwait(false))
                 {
-                    var resultList = response.Content.ReadAsStringAsync().Result;
+                    var resultList = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<ShortUrlList>(resultList);
                 }
             }
@@ -80,7 +80,7 @@ namespace adminBlazorWebsite.Data
                     .ConfigureAwait(false))
                 {
 
-                    var resultList = response.Content.ReadAsStringAsync().Result;
+                    var resultList = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<ShortUrlList>(resultList);
                 }
             }
@@ -104,7 +104,7 @@ namespace adminBlazorWebsite.Data
                     .ConfigureAwait(false))
                 {
 
-                    var resultList = response.Content.ReadAsStringAsync().Result;
+                    var resultList = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<ShortUrlEntity>(resultList);
                 }
             }

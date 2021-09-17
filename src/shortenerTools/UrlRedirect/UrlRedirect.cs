@@ -33,7 +33,7 @@ namespace Cloud5mins.Function
 
                 redirectUrl = config["defaultRedirectUrl"];
 
-                StorageTableHelper stgHelper = new StorageTableHelper(config["UlsDataStorage"]); 
+                StorageTableHelper stgHelper = new StorageTableHelper(config["UrlDataStorage"]); 
 
                 var tempUrl = new ShortUrlEntity(string.Empty, string.Empty, shortUrl);
                 

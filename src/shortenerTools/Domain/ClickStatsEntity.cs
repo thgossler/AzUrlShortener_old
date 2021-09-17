@@ -11,8 +11,8 @@ namespace Cloud5mins.domain
         public ClickStatsEntity(){}
 
         public ClickStatsEntity(string vanity){
-            PartitionKey = vanity;
-            RowKey = Guid.NewGuid().ToString();
+            PartitionKey = vanity.ToLower();
+            RowKey = Guid.NewGuid().ToString().ToLower();
             Datetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
         }
     }

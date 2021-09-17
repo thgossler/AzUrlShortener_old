@@ -12,6 +12,8 @@ namespace  adminBlazorWebsite.Data
 
         public string Url { get; set; }
 
+        public string Vanity { get; set; }
+
         public string ShortUrl { get; set; }
 
         public string OwnerUpn { get; set; }
@@ -23,8 +25,8 @@ namespace  adminBlazorWebsite.Data
         public static ShortUrlEntity GetEntity(string longUrl, string endUrl){
             return new ShortUrlEntity
             {
-                PartitionKey = endUrl.First().ToString(),
-                RowKey = endUrl,
+                PartitionKey = endUrl.First().ToString().ToLower(),
+                RowKey = endUrl.ToLower(),
                 Url = longUrl
             };
         }

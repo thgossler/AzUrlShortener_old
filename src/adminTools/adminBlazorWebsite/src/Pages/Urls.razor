@@ -36,7 +36,7 @@ else
             {
                 <tr>
                     <td><button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => CopyToClipboardAsync(url.ShortUrl))">Copy</button></td>
-                    <td><a href="@url.ShortUrl" target="blank">@url.RowKey</a></td>
+                    <td><a href="@url.ShortUrl" target="blank">@url.Vanity</a></td>
                     <td>
                         <span>@url.Title</span>
                     </td>
@@ -151,7 +151,7 @@ else
                 <div class="modal-body">
                     <label>The Vanity</label>
                     <input class="form-control" type="text"
-                                       @bind="deletedUrl.RowKey" />
+                                       @bind="deletedUrl.Vanity" />
                     <br />
                     <label>Title</label>
                     <input class="form-control" type="text"

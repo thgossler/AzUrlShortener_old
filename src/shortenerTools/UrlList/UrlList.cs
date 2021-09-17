@@ -44,14 +44,14 @@ namespace Cloud5mins.Function
                 .AddEnvironmentVariables()
                 .Build();
 
-            StorageTableHelper stgHelper = new StorageTableHelper(config["UlsDataStorage"]); 
+            StorageTableHelper stgHelper = new StorageTableHelper(config["UrlDataStorage"]); 
 
             try
             {
                result.UrlList = await stgHelper.GetAllShortUrlEntities();
                var host = req.RequestUri.GetLeftPart(UriPartial.Authority); 
                foreach(ShortUrlEntity url in result.UrlList){
-                   url.ShortUrl = Utility.GetShortUrl(host, url.RowKey);
+                   url.ShortUrl = Utility.GetShortUrl(host, url.Vanity);
                }
             }
             catch (Exception ex)

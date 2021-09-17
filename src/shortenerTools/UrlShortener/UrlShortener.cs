@@ -63,7 +63,7 @@ namespace Cloud5mins.Function
                 .AddEnvironmentVariables()
                 .Build();
 
-            StorageTableHelper stgHelper = new StorageTableHelper(config["UlsDataStorage"]); 
+            StorageTableHelper stgHelper = new StorageTableHelper(config["UrlDataStorage"]); 
 
             try
             {
@@ -92,7 +92,7 @@ namespace Cloud5mins.Function
 
                 var host = req.RequestUri.GetLeftPart(UriPartial.Authority);
                 log.LogInformation($"-> host = {host}");
-                result = new ShortResponse(host, newRow.Url, newRow.RowKey, newRow.Title);
+                result = new ShortResponse(host, newRow.Url, newRow.Vanity, newRow.Title);
 
                 log.LogInformation("Short Url created.");
              }

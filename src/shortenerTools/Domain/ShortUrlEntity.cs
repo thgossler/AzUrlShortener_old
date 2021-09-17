@@ -11,6 +11,8 @@ namespace Cloud5mins.domain
 
         public string ShortUrl { get; set; }
 
+        public string Vanity { get; set; }
+        
         /// <summary>
         /// The user principal name (UPN) of the owner.
         /// </summary>
@@ -33,8 +35,9 @@ namespace Cloud5mins.domain
 
         private void initialize(string ownerUpn, string longUrl, string endUrl, string title)
         {
-            PartitionKey = endUrl.First().ToString();
-            RowKey = endUrl;
+            PartitionKey = endUrl.First().ToString().ToLower();
+            RowKey = endUrl.ToLower();
+            Vanity = endUrl; // case-sensitive!
             Url = longUrl;
             Title = title;
             OwnerUpn = ownerUpn;
@@ -45,8 +48,8 @@ namespace Cloud5mins.domain
         {
             return new ShortUrlEntity
             {
-                PartitionKey = endUrl.First().ToString(),
-                RowKey = endUrl,
+                PartitionKey = endUrl.First().ToString().ToLower(),
+                RowKey = endUrl.ToLower(),
                 Url = longUrl,
                 OwnerUpn = ownerUpn
             };

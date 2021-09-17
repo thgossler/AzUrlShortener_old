@@ -17,5 +17,7 @@
         "statusBar.border": "#832561",
         "titleBar.border": "#832561"
     },
-    "peacock.color": "#832561"
+    "peacock.color": "#832561",
+    "appService.preDeployTask": "publish-release",
+    "appService.deploySubpath": "bin/Release/netcoreapp3.1/publish"
 }
