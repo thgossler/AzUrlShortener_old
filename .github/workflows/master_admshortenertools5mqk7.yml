@@ -14,12 +14,8 @@ env:
   DOTNET_VERSION: '3.1.413'  # set this to the dotnet version to use
   
 jobs:
-  build-and-deploy:
+  build:
     runs-on: windows-latest
-
-    environment:
-      name: 'production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
     - uses: actions/checkout@v2
@@ -39,9 +35,27 @@ jobs:
     - name: dotnet publish
       run: |
         pushd '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
-        dotnet publish -c Release -o myApp
-        Compress-Archive -Path myApp/* -DestinationPath '${{ env.DOTNET_ROOT }}/myApp.zip' -Force -Verbose
+        dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
         popd
+
+    - name: Upload artifact for deployment
+      uses: actions/upload-artifact@v2
+      with:
+        name: .net-app
+        path: ${{env.DOTNET_ROOT}}/myapp
+        
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: .net-app
 
     - name: Deploy to Azure Web App
       id: deploy-to-webapp
@@ -50,4 +64,4 @@ jobs:
         app-name: 'admshortenertools5mqk7'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_0c3a1fc8898f4f82aacfd9273f794fe8 }}
-        package: '${{ env.DOTNET_ROOT }}/myApp.zip'
+        package: .
