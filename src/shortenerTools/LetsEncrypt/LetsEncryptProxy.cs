@@ -17,14 +17,18 @@ namespace Cloud5mins.Function
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "LetsEncrypt/{code}")] HttpRequestMessage req,
             string code, ExecutionContext context, ILogger log)
         {
-            log.LogInformation($"C# HTTP trigger function processed a request. {code}");
+            log.LogInformation($"C# HTTP trigger function 'LetsEncrypt' is processing request: code={code}");
 
             string rootPath = context.FunctionAppDirectory;
-
-            string content = string.Empty;
-            string acmeChallengeFile = rootPath + "/.well-known/acme-challenge/" + code;
+            log.LogInformation($"rootPath: {rootPath}");
+            string acmeChallengeFile = rootPath + @"\.well-known\acme-challenge\" + code;
+            if (!System.String.IsNullOrEmpty(System.Environment.GetEnvironmentVariable("WEBSITE_RUN_FROM_PACKAGE"))) {
+                log.LogInformation("WEBSITE_RUN_FROM_PACKAGE is set, using challenge file location outside wwwroot");
+                acmeChallengeFile = rootPath + @"\..\letsencrypt\.well-known\acme-challenge\" + code;
+            }
             log.LogInformation($"ACME challenge file name: {acmeChallengeFile}");
 
+            string content = string.Empty;
             try
             {
                 content = await File.ReadAllTextAsync(acmeChallengeFile);

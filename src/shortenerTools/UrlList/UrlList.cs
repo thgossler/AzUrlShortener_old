@@ -60,6 +60,8 @@ namespace Cloud5mins.Function
                 return req.CreateResponse(HttpStatusCode.BadRequest, ex);
             }
 
+            // TODO: disable FUNCTIONS_V2_COMPATIBILITY_MODE in settings by ensuring async responses in all functions as required by .NET Core 3.1 and later!
+
             return req.CreateResponse(HttpStatusCode.OK, result);
         }
     }
