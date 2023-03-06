@@ -2,7 +2,7 @@
 
 [![Deploy to Azure](https://img.shields.io/badge/Deploy%20To-Azure-blue?logo=microsoft-azure)](https://portal.azure.com/?WT.mc_id=urlshortener-github-thgossler#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fthgossler%2FAzUrlShortener%2Fmaster%2Fdeployment%2FazureDeploy.json)
 
-A simple and easy to use and to deploy budget-friendly Url Shortener for everyone. It runs in Azure (Microsoft cloud) in your subscription.  
+A simple, easy to use and deploy and budget-friendly Azure Serverless URL Shortener. It runs in the Microsoft cloud within your own subscription.  
 
 ## Changes from the original version of FBoucher
 
