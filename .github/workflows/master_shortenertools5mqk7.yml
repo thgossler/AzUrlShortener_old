@@ -6,7 +6,7 @@ name: Build and deploy dotnet core app to Azure Function App - shortenertools5mq
 on:
   push:
     branches:
-      - master
+      - master_disabled
   workflow_dispatch:
 
 env:
