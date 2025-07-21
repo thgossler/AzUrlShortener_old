@@ -23,20 +23,29 @@ namespace Cloud5mins.Function
 
             string redirectUrl = "https://azure.com";
 
+            var config = new ConfigurationBuilder()
+                .SetBasePath(context.FunctionAppDirectory)
+                .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
+                .Build();
+
+            var redirectDomain = config["redirectDomain"];
+            if (!string.IsNullOrWhiteSpace(redirectDomain))
+            {
+                redirectUrl = $"https://{redirectDomain}/{shortUrl ?? string.Empty}";
+                var result = req.CreateResponse(HttpStatusCode.Redirect);
+                result.Headers.Add("Location", redirectUrl);
+                return result;
+            }
+
             if (!String.IsNullOrWhiteSpace(shortUrl))
             {
-                var config = new ConfigurationBuilder()
-                    .SetBasePath(context.FunctionAppDirectory)
-                    .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
-                    .AddEnvironmentVariables()
-                    .Build();
-
                 redirectUrl = config["defaultRedirectUrl"];
 
-                StorageTableHelper stgHelper = new StorageTableHelper(config["UrlDataStorage"]); 
+                StorageTableHelper stgHelper = new StorageTableHelper(config["UrlDataStorage"]);
 
                 var tempUrl = new ShortUrlEntity(string.Empty, string.Empty, shortUrl);
-                
+
                 var newUrl = await stgHelper.GetShortUrlEntity(tempUrl);
 
                 if (newUrl != null)
